@@ -5,15 +5,36 @@ Serves near real-time timeline data to web clients who connect using Comet
 "long polling" methods
 """
 
-def app(environ, start_response):
-    """Simplest possible application object"""
+from pprint import pprint
+import json
+
+import cherrypy
+
+class Server(object):
     
-    data = 'Hello, World!\n'
-    status = '200 OK'
-    response_headers = [
-        ('Content-type','text/plain'),
-        ('Content-Length', str(len(data)))
-    ]
+    @cherrypy.expose
+    def public(self, **kwargs):
+        pprint(kwargs)
+        
+        if 'maxEntries' in kwargs:
+            entries = self.get_n_entries(kwargs['maxEntries'])
+        else:
+            entries = self.get_all_entries()
+        
+        pprint(entries)
+        
+        return '{0}({1})'.format(kwargs['callback'], entries)
     
-    start_response(status, response_headers)
-    return iter([data])
+    def get_n_entries(self, n):
+        data = [
+            (1, 2, 3),
+            (2, 4, 6),
+            (3, 6, 9)
+        ]
+        
+        return json.dumps(data)
+        
+    def get_all_entries(self):
+        raise Exception('blah')
+        
+app = cherrypy.tree.mount(Server())
