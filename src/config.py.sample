@@ -1,0 +1,14 @@
+import os
+
+def num_of_CPUs():
+    if not hasattr(os, "sysconf"):
+        raise RuntimeError("No sysconf detected.")
+    return os.sysconf("SC_NPROCESSORS_ONLN")
+
+bind = "192.168.1.12:48090"
+
+#workers = num_of_CPUs() * 2 + 1
+workers = num_of_CPUs() + 1
+
+# worker class tells gunicorn what type of worker processes to create
+worker_class = 'gevent'
