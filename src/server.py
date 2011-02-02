@@ -26,11 +26,10 @@ class Server(object):
         return '{0}({1})'.format(kwargs['callback'], entries)
     
     def get_n_entries(self, n):
-        data = [
-            (1, 2, 3),
-            (2, 4, 6),
-            (3, 6, 9)
-        ]
+        """
+        Read that last n entries from the database.
+        """
+        data = 'blah'
         
         return json.dumps(data)
         
