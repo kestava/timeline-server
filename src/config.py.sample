@@ -12,3 +12,11 @@ workers = num_of_CPUs() + 1
 
 # worker class tells gunicorn what type of worker processes to create
 worker_class = 'gevent'
+
+# This doesn't work properly in gunicorn 12.0, but it is supposed to be fixed
+# in HEAD.  For now, use sudo -u
+#user = 'kestava'
+
+proc_name = 'timeline-server'
+
+logfile = '/var/log/timeline-server/gunicorn.log'

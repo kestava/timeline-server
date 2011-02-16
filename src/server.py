@@ -9,6 +9,7 @@ from pprint import pprint
 import json
 
 import cherrypy
+import psycopg2
 
 class Server(object):
     
@@ -30,6 +31,7 @@ class Server(object):
         Read that last n entries from the database.
         """
         data = 'blah'
+
         
         return json.dumps(data)
         
