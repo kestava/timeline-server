@@ -1,0 +1,6 @@
+
+config = {
+    'logging.host': 'localhost',
+    'logging.queue_name': 'kestava_logging',
+    'logging.producer': 'timeline-server'
+}
