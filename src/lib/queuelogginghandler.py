@@ -24,7 +24,10 @@ class QueueLoggingHandler(logging.Handler):
         params = pika.ConnectionParameters(
             host=settings.config['logging.host'])
         
-        self.__connection = pika.AsyncoreConnection(parameters=params)
+        reconnStrategy = pika.SimpleReconnectionStrategy()
+        self.__connection = pika.AsyncoreConnection(
+            parameters=params,
+            reconnection_strategy=reconnStrategy)
         self.__channel = self.__connection.channel()
         
         # Set up the queue to which we'll be sending messages
