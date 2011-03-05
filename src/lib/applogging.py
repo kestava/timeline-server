@@ -12,5 +12,4 @@ def setup_logging():
     
     queueHandler = QueueLoggingHandler()
     queueHandler.setLevel(logging.DEBUG)
-    queueHandler.setFormatter(cherrypy._cplogging.logfmt)
     log.error_log.addHandler(queueHandler)

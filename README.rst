@@ -12,7 +12,7 @@ runtime variables:
 
 To run the server *in development*, from within the src directory::
 
-    sudo -u kestava /usr/local/pythonenv/KESTAVA-TIMELINE/bin/gunicorn -c config.py server:app
+    sudo -u kestava /usr/local/pythonenv/KESTAVA-TIMELINE/bin/gunicorn -c config.py app:app
 
 The worker processes are governed by the "arbiter" process, which can be managed
 by sending it signals using the *kill* command.
