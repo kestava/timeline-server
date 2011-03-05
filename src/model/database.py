@@ -1,4 +1,5 @@
 import pprint
+import logging
 
 import cherrypy
 from psycopg2 import connect
@@ -14,8 +15,7 @@ class Database(object):
 
     @classmethod
     def get_last_n_messages(cls, n):
-        
-        cherrypy.log('Inside Database.get_last_n_messages')
+        logging.getLogger('app').debug('Inside Database.get_last_n_messages')
     
         with cls.__get_connection() as connection:
             pass

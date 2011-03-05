@@ -4,12 +4,15 @@ from queuelogginghandler import QueueLoggingHandler
 
 def setup_logging():
     '''Set up a QueueLoggingHandler'''
-    log = cherrypy.log
+    logger = cherrypy.log
     
     # Remove the default FileHandlers if present.
-    log.error_file = ""
-    log.access_file = ""
+    logger.error_file = ""
+    logger.access_file = ""
+    
+    logger = logging.getLogger('app')
+    logger.setLevel(logging.DEBUG)
+    logger.propagate = False
     
     queueHandler = QueueLoggingHandler()
-    queueHandler.setLevel(logging.DEBUG)
-    log.error_log.addHandler(queueHandler)
+    logger.addHandler(queueHandler)

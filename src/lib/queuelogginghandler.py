@@ -3,6 +3,7 @@ import threading
 import json
 import os
 import socket
+import datetime
 
 import settings
 import pika
@@ -39,20 +40,27 @@ class QueueLoggingHandler(logging.Handler):
                     'pid': os.getpid(),
                     'level_name': record.levelname,
                     'level_num': record.levelno,
-                    'message': record.getMessage()
+                    'message': self.__format_message(record.getMessage())
                 }),
                 properties=pika.BasicProperties(
                     content_type='application/json',
                     # deliver_mode=2 <= persistent
                     delivery_mode=2))
         except Exception as e:
-            print(e)
+            print('Encountered an exception: ' + str(e))
+            print(type(e))
         finally:
             if not channel is None:
                 channel.close()
                 
             if not connection is None:
                 connection.close()
+                
+    def __format_message(self, message):
+        now = datetime.datetime.now()
+        #return ('[%02d/%s/%04d:%02d:%02d:%02d]' %
+        #        (now.day, month, now.year, now.hour, now.minute, now.second))
+        return '[{1:04}-{2:02}-{3:02} {4:02}:{5:02}:{6:02}] {0}'.format(message, now.year, now.month, now.day, now.hour, now.minute, now.second)
             
     def fresh_connection(self):
         return pika.AsyncoreConnection(
