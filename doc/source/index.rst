@@ -9,10 +9,10 @@ Welcome to Kestava Timeline Server's documentation!
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    
    installation/index
-   sourcedoc
+   sourcedoc/index
 
 Indices and tables
 ==================

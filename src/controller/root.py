@@ -16,6 +16,9 @@ class Root(object):
             raise cherrypy.HTTPError(
                 400,
                 message='The web service requires a "maxEntries" argument')
+            
+        if 'since' in kwargs:
+            # extract the date
         
         entries = Database.get_last_n_messages(kwargs['maxEntries'])
         return '{0}({1})'.format(kwargs['callback'], entries)
