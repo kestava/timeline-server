@@ -20,7 +20,12 @@ class Connection(object):
             self.__connection.close()
             self.__connection = None
         
-    def fetchall(self, stmt):
-        cur = self.__connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        cur.execute(stmt)
+    def fetchall(self, stmt, vars=None):
+        cur = self.__connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        
+        if vars is None:
+            cur.execute(stmt)
+        else:
+            cur.execute(stmt, vars)
+        
         return cur.fetchall()

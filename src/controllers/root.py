@@ -1,3 +1,6 @@
+import json
+from pprint import pprint
+
 import cherrypy
 
 from model.database import Database
@@ -19,6 +22,10 @@ class Root(object):
             
         if 'since' in kwargs:
             # extract the date
+            pass
         
-        entries = Database.get_last_n_messages(kwargs['maxEntries'])
-        return '{0}({1})'.format(kwargs['callback'], entries)
+        entries = Database.get_messages(kwargs['maxEntries'])
+        pprint(entries)
+        s = json.dumps(entries)
+        print(s)
+        return '{0}({1})'.format(kwargs['callback'], s)

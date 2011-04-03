@@ -1,6 +1,6 @@
 Source Documentation
 ====================
 
-.. automodule:: controller
+.. automodule:: controllers
 .. automodule:: lib
 .. automodule:: model

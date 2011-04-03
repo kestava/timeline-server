@@ -1,3 +1,0 @@
-"""
-.. automodule: controller.root
-"""

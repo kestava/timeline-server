@@ -7,7 +7,7 @@ Serves near real-time timeline data to web clients who connect using Comet
 
 import cherrypy
 
-from controller.root import Root
+from controllers.root import Root
 from lib.applogging import setup_logging
 
 #cherrypy.config.update({'environment': 'embedded'})

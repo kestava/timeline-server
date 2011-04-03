@@ -3,6 +3,7 @@ This is the database module.
 """
 import pprint
 import logging
+import json
 
 import cherrypy
 
@@ -28,8 +29,12 @@ class Database(object):
         logging.getLogger('app').debug('Inside Database.get_last_n_messages')
     
         with cls.__get_connection() as cnx:
-            data = cnx.fetchall('select * from messages')
-            
-        pprint.pprint(data)
-    
-        return "'yeah!'"
+            return cnx.fetchall("""
+                select message_id,
+                    message_id,
+                    message_text,
+                    kestava.to_iso_8601_string(created_when) as created_when_formatted
+                from kestava.messages
+                order by created_when desc
+                limit %s;""",
+                (max,))
