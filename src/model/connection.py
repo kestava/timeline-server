@@ -1,3 +1,5 @@
+from pprint import pprint
+
 import psycopg2
 import psycopg2.extras
 
@@ -20,7 +22,7 @@ class Connection(object):
             self.__connection.close()
             self.__connection = None
         
-    def fetchall(self, stmt, vars=None):
+    def fetch_all(self, stmt, vars=None):
         cur = self.__connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         
         if vars is None:
@@ -29,3 +31,16 @@ class Connection(object):
             cur.execute(stmt, vars)
         
         return cur.fetchall()
+        
+    def get_scalar(self, stmt, column, vars=None):
+        cur = self.__connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        
+        if vars is None:
+            cur.execute(stmt)
+        else:
+            cur.execute(stmt, vars)
+            
+        data = cur.fetchone()
+        if column in data:
+            return data[column]
+            

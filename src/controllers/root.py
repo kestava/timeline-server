@@ -9,23 +9,18 @@ class Root(object):
     
     @cherrypy.expose
     def public(self, **kwargs):
-    
-        if not 'callback' in kwargs:
+
+        self.__assert_argument('callback', kwargs)
+        self.__assert_argument('maxCount', kwargs)
+        
+        entries = Database.get_messages(kwargs['maxCount'])
+        return self.__get_jsonp_response(kwargs['callback'], entries)
+        
+    def __get_jsonp_response(self, callback, data):
+        return '{0}({1})'.format(callback, json.dumps(data))
+        
+    def __assert_argument(self, name, testArgs):
+        if not name in testArgs:
             raise cherrypy.HTTPError(
                 400,
-                message='The web service requires a "callback" argument')
-        
-        if not 'maxEntries' in kwargs:
-            raise cherrypy.HTTPError(
-                400,
-                message='The web service requires a "maxEntries" argument')
-            
-        if 'since' in kwargs:
-            # extract the date
-            pass
-        
-        entries = Database.get_messages(kwargs['maxEntries'])
-        pprint(entries)
-        s = json.dumps(entries)
-        print(s)
-        return '{0}({1})'.format(kwargs['callback'], s)
+                message='The web service requires a "{0}" argument'.format(name))

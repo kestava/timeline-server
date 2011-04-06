@@ -1,7 +1,7 @@
 """
 This is the database module.
 """
-import pprint
+from pprint import pprint
 import logging
 import json
 
@@ -29,12 +29,19 @@ class Database(object):
         logging.getLogger('app').debug('Inside Database.get_last_n_messages')
     
         with cls.__get_connection() as cnx:
-            return cnx.fetchall("""
-                select message_id,
-                    message_id,
-                    message_text,
-                    kestava.to_iso_8601_string(created_when) as created_when_formatted
-                from kestava.messages
-                order by created_when desc
+            return cnx.fetch_all("""
+                select
+                    m.message_id,
+                    m.message_text,
+                    kestava.to_iso_8601_string(m.created_when) as created_when_formatted,
+                    m.ref_account_id,
+                    a.email
+                from kestava.messages as m
+                    left join kestava.accounts as a on m.ref_account_id = a.account_id
+                order by
+                    m.created_when desc,
+                    m.message_id desc
                 limit %s;""",
                 (max,))
+                
+                
